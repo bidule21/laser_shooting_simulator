@@ -66,14 +66,11 @@ class Video(QtCore.QObject):
             hueArray = np.array(h)
             saturationArray = np.array(s)
 
-            # DEBUG
-            # print type(v), type(v), type(valueImage)
-            # cvmat = cv.fromarray(valueImage)
-
             # Apply Threshold for Laser Brightness on valueImage
             retval, valueArrayThresholded = cv2.threshold(src=valueArray, thresh=240, maxval=255, type=cv2.THRESH_BINARY)
             valueImageThresholded = cv2.merge([valueArrayThresholded, valueArrayThresholded, valueArrayThresholded])
 
+            # TODO: complete template detection
             # Find Laser Spot using matchTemplate
             # try:
             #   matchTemplateResult = cv2.matchTemplate(image=readFrame, templ=self.laserTemplate, method=cv2.TM_CCOEFF)
@@ -102,18 +99,21 @@ class Video(QtCore.QObject):
             # Find Max Value as lase spot
             f = cv.fromarray(valueArrayThresholded)
             minVal, maxVal, minLoc, maxLoc = cv.MinMaxLoc(f)
+
+            # if pixel`s color value is greater than this number, it's laser pointer spot
             if maxVal > 254.0:
-              # Add Candidated Circles to bullets hit list
-              # self.hits.append(maxLoc)
+
+              # Add the location of maxVal to bullets hit list
+              self.bullets.append(maxLoc)
 
               # Emits laserDetected Signal
-              # self.emit(QtCore.SIGNAL("laserDetected(PyQt_PyObject, PyQt_PyObject)"), maxLoc, maxVal)
+              self.emit(QtCore.SIGNAL("laserDetected(PyQt_PyObject, PyQt_PyObject)"), maxLoc, maxVal)
               pass
 
             # Draw Circle around bullets hit
             for bullet in self.bullets:
-              cv2.circle(img=readFrame, center=bullet, radius=self.bulletCalibre, color=(255, 100, 100), thickness=-1)
-              pass
+              # FIXME: radius can't be float
+              cv2.circle(img=readFrame, center=bullet, radius=int(self.bulletCalibre), color=(255, 100, 100), thickness=-1)
 
             # draw Semi-Transparent Target in original frame`s clone
             readFrame2 = readFrame.copy()
@@ -226,6 +226,7 @@ class Gui(QtGui.QMainWindow):
       self.video.target['radius'] -= 5
 
     def adjustBulletCaliber(self, caliber):
+      # TODO: this should be calculated according to the distance provided
       self.video.bulletCalibre = caliber
 
     def PictureClicked(self):

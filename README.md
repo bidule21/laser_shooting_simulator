@@ -1,6 +1,6 @@
 # Laser Shooting Simulator
 
-![sd](https://raw.githubusercontent.com/bijanebrahimi/laser_shooting_simulator/master/screenshot.png)
+![Laser Shooting Simulator](https://raw.githubusercontent.com/bijanebrahimi/laser_shooting_simulator/master/screenshot.png)
 
 # TODO
 

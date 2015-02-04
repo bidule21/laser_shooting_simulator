@@ -40,7 +40,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Shooting Simulator (Prototype 1.0)</string>
+       <string>Laser Shooting Simulator (Prototype 1.0)</string>
       </property>
      </widget>
     </item>
@@ -455,9 +455,6 @@
      </layout>
     </item>
    </layout>
-   <zorder>label_5</zorder>
-   <zorder>PictureBtn</zorder>
-   <zorder>resetBtn</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
