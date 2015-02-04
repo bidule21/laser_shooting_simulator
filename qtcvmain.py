@@ -191,10 +191,11 @@ class Gui(QtGui.QMainWindow):
       self.ui.totalLabel.setText("%s" % self.total)
 
     def laserDetected(self, loc, value):
-      global circle_x, circle_y, circle_radius
-      distance = math.hypot(loc[0] - circle_x, loc[1] - circle_y)
-      score_distance = circle_radius / 6
+      # calculate distance from center of target
+      distance = math.hypot(loc[0] - self.video.target['x'], loc[1] - self.video.target['y'])
 
+      # calculate point [10 to 5] according to target's radius
+      score_distance = self.video.target['radius'] / 6
       point = 10 - math.floor(distance/score_distance)
       if point > 4:
         self.hits += 1
@@ -202,7 +203,7 @@ class Gui(QtGui.QMainWindow):
       else:
         self.hits += 1
         point = "Missed"
-      print "point:%s\thits:%s\ttotal:%s" % (point, self.hits, self.total)
+
       self.ui.hitsLabel.setText("%s" % self.hits)
       self.ui.pointsLabel.setText("%s" % point)
       self.ui.totalLabel.setText("%s" % self.total)
