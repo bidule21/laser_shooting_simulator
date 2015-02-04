@@ -41,8 +41,8 @@ class Video(QtCore.QObject):
         self.target = dict(x=320, y=240, radius=175)
 
         # Bullets
-        self.bullets = [(320,240)]
-        self.bulletCalibre = 4
+        self.bullets = []
+        self.bulletCalibre = 4.5
 
 
     def captureNextFrame(self):
@@ -112,7 +112,7 @@ class Video(QtCore.QObject):
 
             # Draw Circle around bullets hit
             for bullet in self.bullets:
-              cv2.circle(img=readFrame, center=bullet, radius=self.bulletCalibre, color=(255, 100, 100), thickness=2)
+              cv2.circle(img=readFrame, center=bullet, radius=self.bulletCalibre, color=(255, 100, 100), thickness=-1)
               pass
 
             # draw Semi-Transparent Target in original frame`s clone
